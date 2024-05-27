@@ -90,6 +90,47 @@
         </div>
     </div>
 
+    <!-- Modal editing student -->
+    <div class="modal" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Student</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editId">
+                    <div class="form-group">
+                        <label for="editName">Name</label>
+                        <input type="text" class="form-control" id="editName" name="editName">
+                    </div>
+                    <div class="form-group">
+                        <label for="editGender">Gender</label>
+                        <input type="text" class="form-control" id="editGender" name="editGender">
+                    </div>
+                    <div class="form-group">
+                        <label for="editBirth">Birth Year</label>
+                        <input type="text" class="form-control" id="editBirth" name="editBirth">
+                    </div>
+                    <div class="form-group">
+                        <label for="editUniversity">University</label>
+                        <input type="text" class="form-control" id="editUniversity" name="editUniversity">
+                    </div>
+                    <div class="form-group">
+                        <label for="editCountry">Country</label>
+                        <input type="text" class="form-control" id="editCountry" name="editCountry">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="update">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script>
@@ -156,8 +197,26 @@
             });
         }
 
-        $(document).ready(function() {
+        function editStudent(id) {
+            $.ajax({
+                url: 'http://192.168.1.11:5000/' + id,
+                type: 'GET',
+                success: function(response) {
+                    var student = response;
+                    $('#editId').val(student.id);
+                    $('#editName').val(student.name);
+                    $('#editGender').val(student.gender);
+                    $('#editBirth').val(student.birth);
+                    $('#editUniversity').val(student.university);
+                    $('#editCountry').val(student.country);
+                    $('#editModal').modal('show');
+                }
+            });
+         }
+
+         $(document).ready(function() {
             $('#create').on('click', sendData);
+            $('#update').on('click', updateStudent);
             loadStudents(); 
         });
     </script>
