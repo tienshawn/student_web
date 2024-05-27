@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>VDT24 Cloud</title>
+</head>
+<body>
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addStudentModal">Add Student</button>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>University</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="list-students"></tbody>
+                </table>    
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal seeing student -->
+    <div class="modal" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailModalLabel">Student Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p><strong>Name:</strong> <span id="detailName"></span></p>
+                    <p><strong>Gender:</strong> <span id="detailGender"></span></p>
+                    <p><strong>Birth Year:</strong> <span id="detailBirth"></span></p>
+                    <p><strong>University:</strong> <span id="detailUniversity"></span></p>
+                    <p><strong>Country:</strong> <span id="detailCountry"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        function loadStudents() {
+            $.ajax({
+                url: 'http://192.168.1.11:5000/', 
+                type: 'GET', 
+                success: function(response) {
+                    var students = response;
+                    var studentList = '';
+                    students.forEach(function(student) {
+                        studentList += '<tr>';
+                        studentList += '<td>' + student.name + '</td>';
+                        studentList += '<td>' + student.gender + '</td>';
+                        studentList += '<td>' + student.university + '</td>';
+                        studentList += '<td>';
+                        studentList += '<button class="btn btn-info view-detail" data-id="' + student.id + '">View</button>';
+                        studentList += '<button class="btn btn-warning edit" data-id="' + student.id + '">Edit</button>';
+                        studentList += '<button class="btn btn-danger delete" data-id="' + student.id + '">Delete</button>';
+                        studentList += '</td>';
+                        studentList += '</tr>';
+                    });
+
+                    $('#list-students').html(studentList);
+                    $('.delete').on('click', function() {
+                        var id = $(this).data('id');
+                        deleteStudent(id);
+                    });
+
+                    $('.view-detail').on('click', function() {
+                        var id = $(this).data('id');
+                        viewDetail(id);
+                    });
+
+                    $('.edit').on('click', function() {
+                        var id = $(this).data('id');
+                        editStudent(id);
+                    });
+                },
+            });
+        }
+
+    </script>
+</body>
+</html>
