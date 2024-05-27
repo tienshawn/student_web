@@ -90,31 +90,6 @@
         </div>
     </div>
 
-        <!-- Modal seeing student -->
-        <div class="modal" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="detailModalLabel">Student Details</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-    
-                    <div class="modal-body">
-                        <p><strong>Name:</strong> <span id="detailName"></span></p>
-                        <p><strong>Gender:</strong> <span id="detailGender"></span></p>
-                        <p><strong>Birth Year:</strong> <span id="detailBirth"></span></p>
-                        <p><strong>University:</strong> <span id="detailUniversity"></span></p>
-                        <p><strong>Country:</strong> <span id="detailCountry"></span></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     <!-- Modal editing student -->
     <div class="modal" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -265,7 +240,34 @@
             });
          }
 
-         $(document).ready(function() {
+        function updateStudent() {
+            var id = document.getElementById('editId').value; 
+            var name = document.getElementById('editName').value; 
+            var gender = document.getElementById('editGender').value; 
+            var birth = document.getElementById('editBirth').value; 
+            var university = document.getElementById('editUniversity').value; 
+            var country = document.getElementById('editCountry').value; 
+
+            $.ajax({
+                url: 'http://192.168.1.11:5000/' + id,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    'name': name,
+                    'gender': gender,
+                    'birth': birth,
+                    'university': university,
+                    'country': country
+                }),
+                success: function(response) {
+                    alert('Student updated successfully');
+                    $('#editModal').modal('hide');
+                    loadStudents(); 
+                }
+            });
+         }
+
+        $(document).ready(function() {
             $('#create').on('click', sendData);
             $('#update').on('click', updateStudent);
             loadStudents(); 
