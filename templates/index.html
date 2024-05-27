@@ -25,6 +25,46 @@
         </div>
     </main>
 
+    <!-- Modal adding student -->
+    <div class="modal" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addStudentModalLabel">Add Student</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="addStudentForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <input type="text" class="form-control" id="gender" name="gender" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="birth">Birth Year</label>
+                            <input type="text" class="form-control" id="birth" name="birth" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="university">University</label>
+                            <input type="text" class="form-control" id="university" name="university" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" class="form-control" id="country" name="country" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="create">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal seeing student -->
     <div class="modal" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -53,6 +93,30 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script>
+        function sendData() {
+            var name = document.getElementById('name').value; 
+            var gender = document.getElementById('gender').value; 
+            var birth = document.getElementById('birth').value; 
+            var university = document.getElementById('university').value; 
+            var country = document.getElementById('country').value; 
+            $.ajax({
+                url: 'http://192.168.1.11:5000/', 
+                type: 'POST', 
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    'name': name, 
+                    'gender': gender,
+                    'birth': birth,
+                    'university': university,
+                    'country': country }), 
+
+                success: function(response) { 
+                    alert('Student added!');
+                    loadStudents(); 
+                }
+            });
+        }
+
         function loadStudents() {
             $.ajax({
                 url: 'http://192.168.1.11:5000/', 
@@ -92,6 +156,10 @@
             });
         }
 
+        $(document).ready(function() {
+            $('#create').on('click', sendData);
+            loadStudents(); 
+        });
     </script>
 </body>
 </html>
