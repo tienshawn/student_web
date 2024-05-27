@@ -222,6 +222,16 @@
             });
         }
 
+        function deleteStudent(id) {
+            $.ajax({
+                url: 'http://192.168.1.11:5000/' + id,
+                type: 'DELETE',
+                success: function(response) {
+                    alert('Student deleted');
+                    loadStudents(); },
+            });
+        }
+
         function viewDetail(id) {
             $.ajax({
                 url: 'http://192.168.1.11:5000/' + id,
