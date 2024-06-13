@@ -141,7 +141,7 @@
             var university = document.getElementById('university').value; 
             var country = document.getElementById('country').value; 
             $.ajax({
-                url: 'http://192.168.1.11:5000/', 
+                url: 'http://backend-service:5000/api/', 
                 type: 'POST', 
                 contentType: 'application/json',
                 data: JSON.stringify({
@@ -160,7 +160,7 @@
 
         function loadStudents() {
             $.ajax({
-                url: 'http://192.168.1.11:5000/', 
+                url: 'http://backend-service:5000/api/', 
                 type: 'GET', 
                 success: function(response) {
                     var students = response;
@@ -199,7 +199,7 @@
 
         function deleteStudent(id) {
             $.ajax({
-                url: 'http://192.168.1.11:5000/' + id,
+                url: 'http://backend-service:5000/api/' + id,
                 type: 'DELETE',
                 success: function(response) {
                     alert('Student deleted');
@@ -209,7 +209,7 @@
 
         function viewDetail(id) {
             $.ajax({
-                url: 'http://192.168.1.11:5000/' + id,
+                url: 'http://backend-service:5000/api/' + id,
                 type: 'GET',
                 success: function(response) {
                     var student = response;
@@ -225,7 +225,7 @@
 
         function editStudent(id) {
             $.ajax({
-                url: 'http://192.168.1.11:5000/' + id,
+                url: 'http://backend-service:5000/api/' + id,
                 type: 'GET',
                 success: function(response) {
                     var student = response;
@@ -249,7 +249,7 @@
             var country = document.getElementById('editCountry').value; 
 
             $.ajax({
-                url: 'http://192.168.1.11:5000/' + id,
+                url: 'http://backend-service:5000/api/' + id,
                 type: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify({
